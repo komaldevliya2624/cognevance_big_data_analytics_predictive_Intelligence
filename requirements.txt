@@ -1,1 +1,10 @@
-
+pandas<3
+numpy 
+pyspark 
+pyarrow>=18 
+scikit-learn 
+matplotlib 
+seaborn 
+sqlalchemy 
+pymysql 
+jupyter

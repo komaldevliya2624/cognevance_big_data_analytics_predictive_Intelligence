@@ -2,51 +2,54 @@
 
 ## 📌 Project Overview
 
-**Big Data Analytics & Predictive Intelligence for E-Commerce** is an end-to-end data analytics and machine learning project designed to analyze e-commerce transaction data, identify business patterns, and forecast future sales.
+**Big Data Analytics & Predictive Intelligence for E-Commerce** is an end-to-end data analytics and machine learning project developed to analyze e-commerce transaction data, identify business patterns, and forecast future sales.
 
-The project combines **Python, Pandas, PySpark, MySQL, Scikit-learn, Matplotlib, and Power BI** to demonstrate a complete data analytics workflow — from data storage and cleaning to exploratory analysis, predictive modeling, visualization, and business insights.
+The project demonstrates a complete data analytics workflow using **MySQL, Python, Pandas, PySpark, Scikit-learn, Matplotlib, and Power BI**.
+
+The workflow covers data storage, data validation, cleaning, feature engineering, big-data processing, exploratory data analysis, machine learning, sales forecasting, visualization, and business insights.
 
 ---
 
-## 🎯 Objectives
+## 🎯 Project Objectives
 
 * Analyze e-commerce transaction data.
-* Store and process data using **MySQL and PySpark**.
-* Identify and handle invalid or inconsistent records.
-* Perform feature engineering on transaction data.
+* Store and retrieve data using MySQL.
+* Perform data validation and cleaning.
+* Process data using PySpark.
+* Perform exploratory data analysis.
+* Engineer useful analytical features.
 * Analyze sales, customers, products, payment methods, and transaction status.
-* Build a **sales forecasting model** using Machine Learning.
-* Evaluate model performance using standard regression metrics.
-* Generate future sales predictions.
-* Create an interactive **Power BI dashboard**.
-* Present actionable business insights from the data.
+* Build a machine learning model for sales forecasting.
+* Evaluate model performance using regression metrics.
+* Predict sales for the next 7 days.
+* Develop an interactive Power BI dashboard.
+* Generate meaningful business insights.
 
 ---
 
-## 🧰 Technologies Used
+## 🧰 Technologies & Tools
 
 | Technology       | Purpose                             |
 | ---------------- | ----------------------------------- |
-| Python           | Data analysis and programming       |
+| Python           | Programming and data analysis       |
 | Pandas           | Data manipulation and preprocessing |
 | NumPy            | Numerical computation               |
 | PySpark          | Big-data processing                 |
-| MySQL            | Data storage and SQL analysis       |
-| SQLAlchemy       | Python-MySQL connectivity           |
-| PyMySQL          | MySQL database connection           |
+| MySQL            | Data storage and querying           |
+| SQLAlchemy       | Database connectivity               |
+| PyMySQL          | MySQL connection                    |
 | Scikit-learn     | Machine Learning                    |
 | Matplotlib       | Data visualization                  |
-| Jupyter Notebook | Development and analysis            |
+| Seaborn          | Statistical visualization           |
+| Jupyter Notebook | Project development                 |
 | Power BI         | Interactive dashboard               |
-| Git & GitHub     | Version control and project hosting |
+| Git & GitHub     | Version control                     |
 
 ---
 
 ## 📊 Dataset
 
-The project uses an **e-commerce transaction dataset** containing transaction-level information.
-
-### Dataset Features
+The project uses e-commerce transaction-level data containing the following attributes:
 
 * `transaction_id`
 * `customer_id`
@@ -60,27 +63,25 @@ The project uses an **e-commerce transaction dataset** containing transaction-le
 * `payment_method`
 * `shipping_cost`
 
-Additional analytical features were created during feature engineering.
+Additional features were created during the feature-engineering stage.
 
 ---
 
-## 🔍 Data Quality & Cleaning
+## 🔍 Data Cleaning & Validation
 
-The original dataset contained several malformed or inconsistent records.
+The dataset was validated before performing analysis and machine learning.
 
-Validation was performed on:
+The following fields were checked for invalid or malformed values:
 
-* Product ID format
-* Transaction date format
+* Product ID
+* Transaction date
 * Transaction status
 * Payment method
 * Quantity
 * Unit price
 * Total amount
 
-Invalid records were removed rather than assigning fabricated values.
-
-### Detected Invalid Records
+### Invalid Records Identified
 
 | Column             | Invalid Records |
 | ------------------ | --------------: |
@@ -89,21 +90,23 @@ Invalid records were removed rather than assigning fabricated values.
 | `status`           |               7 |
 | `payment_method`   |              31 |
 
-After validation, the cleaned dataset contained:
+Instead of manually guessing or fabricating missing information, invalid records were excluded from the analytical dataset.
 
-**242 valid transactions**
+### Final Clean Dataset
 
-### Valid Date Range
+**Valid transactions: 242**
 
-**January 1, 2023 – January 9, 2023**
+### Valid Data Period
 
-The available valid data covered only one month, so monthly forecasting was not statistically suitable. Therefore, the forecasting analysis was performed at the **daily level**.
+**January 1, 2023 to January 9, 2023**
+
+The valid dataset covered only one month. Therefore, monthly forecasting was not appropriate, and the forecasting analysis was changed to a **daily sales forecasting approach**.
 
 ---
 
 ## ⚙️ Feature Engineering
 
-The following features were generated from the transaction timestamp:
+The transaction timestamp was used to generate additional analytical features:
 
 * `year`
 * `month`
@@ -112,73 +115,21 @@ The following features were generated from the transaction timestamp:
 * `hour`
 * `net_amount`
 
-Where:
+The `net_amount` feature was calculated as:
 
 ```text
 net_amount = total_amount - shipping_cost
 ```
 
-For forecasting, a numerical:
-
-```text
-time_index
-```
-
-was also created to represent the progression of days.
-
----
-
-## 🚀 Project Workflow
-
-```text
-Raw E-Commerce Data
-        ↓
-MySQL Database
-        ↓
-Data Validation & Cleaning
-        ↓
-Feature Engineering
-        ↓
-PySpark Processing
-        ↓
-Exploratory Data Analysis
-        ↓
-Daily Sales Aggregation
-        ↓
-Machine Learning
-        ↓
-Sales Forecasting
-        ↓
-Power BI Dashboard
-        ↓
-Business Insights
-```
-
----
-
-## 🗄️ MySQL Integration
-
-The transaction data was imported into **MySQL** and accessed from Python using SQLAlchemy/PyMySQL.
-
-Example workflow:
-
-```python
-from sqlalchemy import create_engine
-
-engine = create_engine(
-    "mysql+pymysql://username:password@localhost/database_name"
-)
-```
-
-The data was then loaded into Pandas and subsequently converted into a PySpark DataFrame for distributed processing.
+For sales forecasting, a sequential `time_index` was created to represent the progression of days.
 
 ---
 
 ## ⚡ PySpark Processing
 
-PySpark was used for scalable data processing and aggregation.
+PySpark was used to process and aggregate the cleaned transaction data.
 
-Example:
+Daily sales were calculated by grouping transactions by date:
 
 ```python
 daily_sales = transactions_ml.withColumn(
@@ -189,32 +140,32 @@ daily_sales = transactions_ml.withColumn(
 ).orderBy("date")
 ```
 
-This generated daily sales data for forecasting.
+The resulting daily sales data was then used for forecasting.
 
 ---
 
 ## 📈 Exploratory Data Analysis
 
-The project analyzes several important business dimensions:
+The project performs analysis across multiple business dimensions.
 
 ### Sales Analysis
 
 * Total revenue
 * Average transaction value
-* Daily sales trends
-* Sales distribution
+* Daily sales
+* Sales trends
 
 ### Customer Analysis
 
 * Customer-wise revenue
-* Highest-value customers
-* Customer purchasing patterns
+* Top customers
+* Customer purchasing contribution
 
 ### Product Analysis
 
 * Product-wise revenue
 * Top-performing products
-* Product contribution to sales
+* Product sales contribution
 
 ### Payment Analysis
 
@@ -230,27 +181,42 @@ The project analyzes several important business dimensions:
 
 ---
 
-🤖 Machine Learning — Sales Forecasting
+# 🤖 Machine Learning — Sales Forecasting
 
-Because the cleaned dataset contained only one month of valid data, daily sales forecasting was selected instead of monthly forecasting.
+## Model Selection
 
-A Linear Regression model was used as the baseline forecasting model.
+Since the cleaned dataset contains only one month of valid data, **daily sales forecasting** was used instead of monthly forecasting.
 
-Model Input
+A **Linear Regression** model was implemented as a baseline forecasting model.
+
+### Input Feature
+
+```text
 time_index
-Target Variable
+```
+
+### Target Variable
+
+```text
 daily sales
-Train-Test Split
+```
 
-The dataset was divided into training and testing sets using an 80:20 split while preserving chronological order.
+### Train-Test Split
 
+The data was divided chronologically using an **80:20 train-test split**.
+
+```python
 X_train, X_test, y_train, y_test = train_test_split(
     X,
     y,
     test_size=0.2,
     shuffle=False
 )
-Model
+```
+
+### Model Training
+
+```python
 from sklearn.linear_model import LinearRegression
 
 model = LinearRegression()
@@ -258,88 +224,157 @@ model = LinearRegression()
 model.fit(X_train, y_train)
 
 predictions = model.predict(X_test)
-📏 Model Evaluation
+```
+
+---
+
+## 📏 Model Evaluation
 
 The model was evaluated using:
 
-MAE — Mean Absolute Error
+### MAE — Mean Absolute Error
 
 Measures the average absolute difference between actual and predicted sales.
 
-MSE — Mean Squared Error
+### MSE — Mean Squared Error
 
 Measures the average squared prediction error.
 
-RMSE — Root Mean Squared Error
+### RMSE — Root Mean Squared Error
 
 Measures prediction error in the same unit as the target variable.
 
-R² Score
+### R² Score
 
-Measures how much of the variation in sales is explained by the model.
+Measures the proportion of variation in the target variable explained by the model.
 
-The final metric values are available in the project notebook.
+The exact evaluation results are available in the project notebook.
 
-🔮 Future Sales Forecast
+---
 
-The trained model was used to predict sales for the next 7 days.
+# 🔮 Future Sales Forecast
 
+The trained model was used to generate a **7-day future sales forecast**.
+
+```python
 future_indices = np.arange(
     last_index + 1,
     last_index + 8
 ).reshape(-1, 1)
 
 future_predictions = model.predict(future_indices)
+```
 
-The predictions were exported as:
+The forecast results were saved as:
 
+```text
 sales_forecast.csv
-📊 Visualizations
+```
 
-The project includes visual analysis such as:
+---
 
-Daily sales trends
-Actual vs predicted sales
-Payment method revenue
-Transaction status analysis
-Customer revenue analysis
-Product revenue analysis
+# 📊 Data Visualization
 
-Example forecasting visualization:
+The project includes visualizations for:
 
-plt.plot(
-    X_test["time_index"],
-    y_test,
-    marker="o",
-    label="Actual Sales"
+* Daily sales trends
+* Actual vs predicted sales
+* Payment-method analysis
+* Transaction-status analysis
+* Customer revenue
+* Product revenue
+* Sales forecasting
+
+### Actual vs Predicted Sales
+
+The forecasting model compares actual test-set sales with model predictions to evaluate the model's performance.
+
+---
+
+# 📊 Power BI Dashboard
+
+An interactive Power BI dashboard is included/planned as part of the project.
+
+### Key KPIs
+
+* Total Revenue
+* Total Transactions
+* Average Transaction Value
+* Total Quantity
+* Shipping Cost
+* Net Amount
+
+### Dashboard Analysis
+
+The dashboard provides visual analysis of:
+
+* Daily sales trends
+* Payment methods
+* Transaction status
+* Top customers
+* Top products
+* Sales forecast
+
+---
+
+# 🗄️ Database Integration
+
+The project uses **MySQL** for data storage.
+
+The transaction data was accessed from Python using SQLAlchemy and PyMySQL.
+
+Example:
+
+```python
+from sqlalchemy import create_engine
+
+engine = create_engine(
+    "mysql+pymysql://username:password@localhost/database_name"
 )
+```
 
-plt.plot(
-    X_test["time_index"],
-    predictions,
-    marker="o",
-    label="Predicted Sales"
-)
-📊 Power BI Dashboard
+The data was then loaded into Python and converted into a PySpark DataFrame for further processing.
 
-An interactive Power BI dashboard is planned to provide a business-friendly view of the analysis.
+---
 
-Key Dashboard KPIs
-Total Revenue
-Total Transactions
-Average Transaction Value
-Total Quantity
-Shipping Cost
-Net Revenue
-Dashboard Visuals
-Daily Sales Trend
-Payment Method Analysis
-Transaction Status
-Top Customers
-Top Products
-Sales Forecast
-📁 Project Structure
-ecommerce-predictive-intelligence/
+# 🔄 Project Workflow
+
+```text
+Raw E-Commerce Dataset
+        ↓
+MySQL Database
+        ↓
+Data Loading
+        ↓
+Data Validation
+        ↓
+Data Cleaning
+        ↓
+Feature Engineering
+        ↓
+PySpark Processing
+        ↓
+Exploratory Data Analysis
+        ↓
+Daily Sales Aggregation
+        ↓
+Machine Learning
+        ↓
+Model Evaluation
+        ↓
+7-Day Sales Forecast
+        ↓
+Power BI Dashboard
+        ↓
+Business Insights
+```
+
+---
+
+# 📁 Repository Structure
+
+```text
+cognevance_ecommerce-predictive-intelligence/
 │
 ├── data/
 │   ├── ecommerce_cleaned.csv
@@ -362,43 +397,55 @@ ecommerce-predictive-intelligence/
 │
 ├── requirements.txt
 └── README.md
-📦 Installation
+```
+
+---
+
+# 📦 Installation
 
 Clone the repository:
 
-git clone https://github.com/komaldevliya2624/ecommerce-predictive-intelligence.git
+```bash
+git clone https://github.com/komaldevliya2624/cognevance_ecommerce-predictive-intelligence.git
+```
 
-Move into the project directory:
+Navigate to the project directory:
 
-cd ecommerce-predictive-intelligence
+```bash
+cd cognevance_ecommerce-predictive-intelligence
+```
 
-Install the required Python packages:
+Install the required Python libraries:
 
+```bash
 pip install -r requirements.txt
-📋 Requirements
-pandas<3
-numpy
-pyspark
-pyarrow
-scikit-learn
-matplotlib
-seaborn
-sqlalchemy
-pymysql
-jupyter
-▶️ How to Run
-1. Start MySQL
+```
 
-Make sure MySQL is running and the project database is available.
+---
 
-2. Open Jupyter Notebook
+# ▶️ How to Run the Project
+
+### Step 1 — Start MySQL
+
+Make sure your MySQL server is running.
+
+### Step 2 — Open Jupyter Notebook
+
+```bash
 jupyter notebook
-3. Open
+```
+
+### Step 3 — Open the project notebook
+
+```text
 notebooks/ecommerce_predictive_intelligence.ipynb
-4. Run the notebook cells sequentially
+```
 
-The notebook performs:
+### Step 4 — Run the notebook
 
+Run the cells sequentially to perform:
+
+```text
 Database Connection
         ↓
 Data Loading
@@ -420,57 +467,93 @@ Model Training
 Model Evaluation
         ↓
 7-Day Forecast
-⚠️ Project Limitation
+```
 
-The cleaned dataset contains only 242 valid transactions covering January 1–9, 2023.
+---
 
-Because the available valid data covers only a short period, the sales forecasting model should be considered a baseline demonstration rather than a production-grade forecasting system.
+# ⚠️ Project Limitations
 
-A larger dataset covering several months or years would provide a stronger basis for reliable forecasting.
+The final cleaned dataset contains **242 valid transactions** covering **January 1–9, 2023**.
 
-🔮 Future Improvements
+Because the available valid historical data covers a relatively short period, the Linear Regression forecasting model should be considered a **baseline model for demonstration and learning purposes**, rather than a production-ready forecasting solution.
 
-Future versions of this project can include:
+A larger dataset covering multiple months or years would allow more reliable forecasting and stronger model evaluation.
 
-Larger historical datasets
-Time-series models such as ARIMA, SARIMA, Prophet, or advanced ML models
-Customer segmentation using clustering
-Customer Lifetime Value prediction
-Product recommendation system
-Fraud/anomaly detection
-Advanced demand forecasting
-Real-time data processing using Spark Streaming
-Automated ETL pipelines
-Cloud deployment
-Real-time Power BI dashboards
-💡 Key Learning Outcomes
+---
 
-Through this project, I worked with:
+# 🔮 Future Scope
 
-Data cleaning and validation
-Feature engineering
-Pandas
-PySpark
-MySQL
-SQL-based data storage
-Exploratory Data Analysis
-Machine Learning
-Regression model evaluation
-Sales forecasting
-Data visualization
-Power BI
-GitHub project organization
-👩‍💻 Author
+The project can be further improved by implementing:
 
-Komal Devliya
+* Larger historical datasets
+* Advanced time-series forecasting
+* ARIMA/SARIMA
+* Prophet
+* Random Forest
+* XGBoost
+* Customer segmentation
+* Customer Lifetime Value prediction
+* Product recommendation
+* Fraud and anomaly detection
+* Real-time analytics
+* Automated ETL pipelines
+* Cloud-based big-data processing
+* Advanced Power BI dashboards
 
-BCA Graduate | Aspiring Data Analyst & Data Scientist
+---
 
-Areas of Interest
-Data Analytics
-Data Science
-Machine Learning
-Python
-SQL
-Power BI
-Big Data Analytics
+# 📚 Learning Outcomes
+
+This project provided practical experience in:
+
+* Data cleaning
+* Data validation
+* Feature engineering
+* Pandas
+* NumPy
+* PySpark
+* MySQL
+* SQL/database integration
+* Exploratory Data Analysis
+* Machine Learning
+* Regression
+* Model evaluation
+* Sales forecasting
+* Data visualization
+* Power BI
+* GitHub project management
+
+---
+
+# 👩‍💻 Author
+
+## Komal Devliya
+
+**BCA Graduate | Aspiring Data Analyst & Data Scientist**
+
+### Areas of Interest
+
+* Data Analytics
+* Data Science
+* Machine Learning
+* Python
+* SQL
+* Power BI
+* Big Data Analytics
+
+---
+
+# 📌 Project Submission
+
+This project has been developed as part of the **Cognevance project/internship submission**.
+
+The repository contains the project source code, cleaned dataset, notebook, forecasting output, dashboard, documentation, and supporting files.
+
+---
+
+## ⭐ Conclusion
+
+The project demonstrates an end-to-end approach to transforming raw e-commerce transaction data into meaningful analytical and predictive insights.
+
+It combines database management, data cleaning, big-data processing, exploratory analysis, machine learning, forecasting, and business visualization into a single practical e-commerce analytics solution.
+
